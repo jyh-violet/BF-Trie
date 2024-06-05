@@ -1,0 +1,10 @@
+cmake-build-debug/
+cmake-build-release/
+.idea/
+
+.vscode/
+build/
+src/test_self/
+CMakeLists-local.txt
+CMakeLists-remote.txt
+.DS_Store
