@@ -37,7 +37,7 @@ opt:
 To use the index for cache invalidation, you should include the libbftree.a in your code, and we provide a set of APIs:
 
 - CreateIndex(): create an empty index;
-- IndexInsert(index, meta): insert a signature `meta` into the index. Specifically, each `meta` holds a Bloom filter which should be generated for a DB query. For the D-method, the `meta` is generated for a DQL query and the  `queryId` attribute of the `meta` should also be filled to identify the related cached entry during Search. For V-method, a `meta` is generated for each updated tuple. Specifically, to insert an identifier into a Bloom filter, you can use the API `BloomInsertKey`, which implements the prefix hashing.
+- IndexInsert(index, meta): insert a signature `meta` into the index. Specifically, each `meta` holds a Bloom filter which should be generated for a DB query. For the D-method, the `meta` is generated for a DQL query and the  `queryId` attribute of the `meta` should also be filled to identify the related cached entry during Search. For V-method, a `meta` is generated for each updated tuple. Specifically, to insert an identifier into a Bloom filter, you can also include this lib and use the API `BloomInsertKey`, which implements the prefix hashing.
 -  IndexSearch(index, meta,list): lookup based on the give `meta`. For the D-method, the found matched cases are stored in list; for V-method, it returns `true` if any matched case is found, i.e., the checked cached entry should be invalidated.
 
 
