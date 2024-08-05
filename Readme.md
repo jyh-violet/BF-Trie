@@ -1,5 +1,24 @@
 BF-Trie: an index for Bloom filters, to find Bloom filters including in or included by a given Bloom filter.
 
+# Introduction
+
+A Bloom filter can be represented as a set of the holding positions of the '1's in its bit array. A BF-Trie is a Trie tree on the position sets of '1's for Bloom filters.
+In the tree, each node represents a position of '1', and each path represents a Bloom filter whose positions of '1' are recorded as the nodes on the path.
+
+However, firstly, the BF-Trie is typically a sparse tree with many nodes having only one child. Secondly, it is usually a skew tree, where smaller positions are likely to have more child nodes.
+Considering these characteristics, we applied two compression optimization strategies to the BF-Trie.
+
+- **Height compression**. To compress the height of the BF-Trie, each node maintains a Bloom filter list with a maximum size _S_. 
+A node will create its children nodes only if its list is full. When a Bloom filter is inserted, it travels along the tree and will be inserted into the first node whose list is not full. 
+A new node is created only if all nodes in the path are full. 
+
+- **Width compression**. Considering the skewness of the tree, instead of creating all possible children for a node, we define a maximum fan-out _F_. 
+For any node representing position _p_, it will create _F_ children, with the _i_th child (where _i_ \in {1, 2, ..., _F_-1\}) indicating that the next '1' lies in position _p_ + _i_, while its last child (also referred to as the tail node) indicates that the next '1' lies in a position no less than _p_ + _F_. 
+
+
+Height compression allows fewer nodes to be created during insertion and accessed during searching, while width compression allows smaller nodes, both beneficial to CPU caches.
+
+
 
 # Compile
 
